@@ -2,16 +2,13 @@
 # coding=utf-8
 import sys
 import getopt
-import threading
-
+"""
+    __opts模块，负责获取命令行参数，并将参数赋值到map中，格式为对应参数的--长串key与对应的value。
+    已经对一些命令直接进行返回。如--help
+"""
 __author__ = 'lixiaozhu'
 
-# 配置信息
-hosts_file =[ {'hostname': "ec2-52-3-115-141.compute-1.amazonaws.com",
-              "log_file": "/export/log/access",
-              "username": "root", "password": None, "private_key": "/root/ledosdk_login/sdk-nvirginia.pem", "port": 22},]
 
-print_lock=threading.Lock()
 
 class __opts:
     #先看看这个usage，看一下需求。我规划一下模块之后再开始写。
@@ -42,7 +39,7 @@ class __opts:
             if opt in ('-h', '--help'):
                 self.usage()
                 sys.exit(2)
-    def getLogLook(self,log_look):
+    def getLogLook(self,log_look,hosts_file):
         log_look._host=hosts_file
         def putvalue(host,key,value):
             value=value.split(',')
@@ -91,8 +88,3 @@ class __opts:
                     log_look._host[index]['log_file']=v
                 continue
         print log_look._host
-class __log_look:
-    def __init__(self):
-        pass
-opt=__opts(sys.argv[1:])
-opt.getLogLook(__log_look())
