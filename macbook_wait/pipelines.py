@@ -17,7 +17,7 @@ from macbook_wait.mail.mail import MailSender
 
 class InfoPipeline(object):
     def __init__(self):
-        self.file = codecs.open("macbook_wait.json", mode='wb', encoding='utf-8')
+        self.file = codecs.open("macbook_wait.json", mode='ab', encoding='utf-8')
         self.result = u'{"is_text":["新款-经批准后发售"],"submit_button":["disabled"]}'
         self.mail_sender = MailSender(mail_conf.api_user, mail_conf.api_key, mail_conf.from_addr, mail_conf.to_addr)
 

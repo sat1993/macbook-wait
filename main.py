@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
-from scrapy.crawler import CrawlerProcess
+import time
+from twisted.internet import reactor, defer
+from scrapy.crawler import CrawlerRunner
+from scrapy.utils.log import configure_logging
+
 from scrapy.utils.project import get_project_settings
-
 from macbook_wait.spiders.macbook_wait_spider import MacbookWaitSpider
-from time import sleep
+configure_logging()
+runner = CrawlerRunner(settings=get_project_settings())
 
-while (True):
-    process = CrawlerProcess(get_project_settings())
-    process.crawl(MacbookWaitSpider)
-    process.start()
-    sleep(300)
+@defer.inlineCallbacks
+def crawl():
+    while True:
+        yield runner.crawl(MacbookWaitSpider)
+        time.sleep(300)
+    reactor.stop()
+
+crawl()
+reactor.run() # the script will block here until the last crawl call is finished
