@@ -30,8 +30,19 @@ class InfoPipeline(object):
             "%s,%s,%s\n" % (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), jsonstr, str(jsonstr == self.result)))
         if (item['is_text'] == ''):
             return item
-        if (jsonstr != self.result):
+        obj = json.loads(jsonstr)
+        """2016-11-1 22:30:00 官网修改字段 新款-经批准后发售 为 新款，按钮仍为disable
+        更换为依据按钮属性判断
+        """
+        if (obj["submit_button"] != ["disabled"]):
             self.mail_sender.send_mail(jsonstr)
             self.file.write(
                 "sendmail!")
+        # print info["submit_button"] == [n.encode("utf-8") for n in "disabled"] 这里为什么不相等呢？
+
+
+        # if (jsonstr != self.result):
+        #     self.mail_sender.send_mail(jsonstr)
+        #     self.file.write(
+        #         "sendmail!")
         return item

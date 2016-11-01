@@ -13,7 +13,7 @@ runner = CrawlerRunner(settings=get_project_settings())
 def crawl():
     while True:
         yield runner.crawl(MacbookWaitSpider)
-        time.sleep(300)
+        time.sleep(30)
     reactor.stop()
 
 crawl()
